@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Hebrew Text Reverse Tool</title>
+
+    <!-- Bootstrap core CSS -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <style>
+    	body {
+			  padding-top: 1.5rem;
+			  padding-bottom: 1.5rem;
+			}
+			#msg { display: none;}
+		</style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <body>
+
+    <div class="container">
+
+      <div class="jumbotron">
+        <h1 class="display-3">Hebrew Text Reverse Tool</h1>
+        <p class="lead">Are you tired of pasting Hebrew text into editors and finding the Hebrew letter order reversed? We can't solve the RTL problem, but we sure can treat the symptoms! Just paste your text here and click to reverse and copy.</p>
+        <p><textarea class="form-control" id="reverseTextarea" rows="3"></textarea></p>
+        <p>
+        	<div class="btn btn-lg btn-success" role="button" id="run">Reverse and Copy To Clipboard</div>
+        	<div class="d-inline alert alert-warning invisible" id="msg" role="alert"></div>
+        </p>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Ethan Piliavin 2018</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+  	<script>
+	  	function reverseString(str) {
+				return str.split("").reverse().join("");
+			}
+			
+			$( document ).ready(function() {
+				
+				$("#reverseTextarea").keypress(function() {
+				  $('#msg').addClass("invisible");
+				});
+				
+				$("#run").click(function(event){
+					event.preventDefault();
+					$("#reverseTextarea").val( reverseString( $("#reverseTextarea").val() ) );
+					
+					//Copy to clipboard
+					$("#reverseTextarea").select();
+					
+					try {
+		        document.execCommand('copy');
+		        $("#reverseTextarea").blur();
+		        $('#msg').text("Done! Copied to clipboard.").toggleClass("invisible");
+
+		      }
+		      catch (err) {
+		      	$("#reverseTextarea").select();
+		      	$('#msg').text("Done! Your browser does not support copy. Press Ctrl/Cmd+C to copy the result.").toggleClass("invisible");
+		      }					
+
+					
+				});
+			});
+		
+  	</script>
+  </body>
+</html>
